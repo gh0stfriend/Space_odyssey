@@ -1,0 +1,96 @@
+import random
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.hp = 100
+
+class Enemy:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+def attack(player, enemy):
+    damage = random.randint(10, 20)
+    enemy.hp -= damage
+    print(f"You attacked {enemy.name} and dealt {damage} damage!")
+    if enemy.hp <= 0:
+        print(f"{enemy.name} has been defeated!")
+    else:
+        print(f"{enemy.name} now has {enemy.hp} HP left.")
+
+def explore(player):
+    print("You are exploring the unknown galaxy...")
+    event = random.randint(1, 3)
+    if event == 1:
+        print("You found a deserted space station. Do you want to investigate?")
+        choice = input("Enter 'yes' or 'no': ").lower()
+        if choice == "yes":
+            print("You found some valuable resources!")
+        else:
+            print("You decided to move on.")
+    elif event == 2:
+        print("You encountered a friendly alien trader. Do you want to trade?")
+        choice = input("Enter 'yes' or 'no': ").lower()
+        if choice == "yes":
+            print("You traded some resources for valuable items!")
+        else:
+            print("You decided to move on.")
+    else:
+        print("You found a mysterious ancient artifact. Do you want to examine it?")
+        choice = input("Enter 'yes' or 'no': ").lower()
+        if choice == "yes":
+            print("You gained some knowledge about the galaxy!")
+        else:
+            print("You decided to move on.")
+
+def enemy_attack(player):
+    damage = random.randint(10, 20)
+    player.hp -= damage
+    print(f"{player.name}'s ship was attacked by an enemy!")
+    print(f"Your ship suffered {damage} damage.")
+    if player.hp <= 0:
+        print("Your ship was destroyed! Game over.")
+    else:
+        print(f"Your ship now has {player.hp} HP left.")
+
+def main():
+    print("Welcome to the Space Adventure Game!")
+    player_name = input("Enter your name: ")
+    player = Player(player_name)
+
+    print(f"Hello, {player.name}! You are the captain of a spaceship.")
+    print("Your mission is to explore the unknown galaxy and encounter new adventures!")
+
+    while player.hp > 0:
+        print("\nWhat would you like to do?")
+        print("1. Explore")
+        print("2. Attack enemy ship")
+        print("3. Rest and recover")
+        print("4. Quit")
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == "1":
+            explore(player)
+        elif choice == "2":
+            enemy = Enemy("Enemy Ship", random.randint(30, 50))
+            print(f"Prepare for battle against {enemy.name}!")
+            while enemy.hp > 0 and player.hp > 0:
+                attack(player, enemy)
+                if enemy.hp > 0:
+                    enemy_attack(player)
+        elif choice == "3":
+            player.hp = min(100, player.hp + 20)  # Healing up to 100 HP
+            print("You rested and recovered some health.")
+            print(f"Your current HP: {player.hp}")
+        elif choice == "4":
+            print("Thank you for playing! Goodbye.")
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+    if player.hp <= 0:
+        print("Game over! Your ship was destroyed.")
+
+if __name__ == "__main__":
+    main()
